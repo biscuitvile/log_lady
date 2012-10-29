@@ -1,0 +1,2 @@
+module LogLady
+end
