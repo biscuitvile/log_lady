@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe Pet do
-  it "noops" do
-    Pet.new.should be
+  context "before create" do
+    it "logs are empty" do
+      Pet.new.logs.should be_empty
+    end
   end
 end
