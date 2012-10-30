@@ -10,10 +10,18 @@ describe Pet do
   end
 
   context "after create" do
-    it "should have one log" do
+    before do
       felix.save
+    end
+
+    it "should have one log" do
       felix.logs.count.should == 1
       felix.logs.first.should be_persisted
+    end
+
+    it "tracks attributes changes in its log" do
+      felix.logs.first.changeset
+        .should == { 'name' => [nil, "Felix"], 'kind' => [nil, "Cat"] }
     end
   end
 end

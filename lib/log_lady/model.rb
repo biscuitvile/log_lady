@@ -14,11 +14,15 @@ module LogLady
             as: :loggable
 
           before_create do
-            logs.build
+            changeset = changed_attributes.inject({}) do | result, (attr, old_val) |
+              result[attr] = [ old_val, self.send(attr) ]
+              result
+            end
+
+            logs.build(changeset: changeset)
           end
         end
       end
     end
-
   end
 end
