@@ -24,4 +24,20 @@ describe Pet do
         .should == { 'name' => [nil, "Felix"], 'kind' => [nil, "Cat"] }
     end
   end
+
+  context "after update" do
+    before do
+      felix.save; felix.update_attributes(name: 'Garfield')
+    end
+
+    it "should have two logs" do
+      felix.logs.count.should == 2
+      felix.logs.last.should be_persisted
+    end
+
+    it "tracks attributes changes in its log" do
+      felix.logs.last.changeset
+        .should == { 'name' => ["Felix", "Garfield"] }
+    end
+  end
 end

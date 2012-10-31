@@ -14,6 +14,7 @@ module LogLady
             as: :loggable
 
           before_create :build_log
+          before_update :build_log
 
           def build_log
             logs.build(changeset: changeset)
