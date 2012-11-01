@@ -6,29 +6,23 @@ module LogLady
     end
 
     def build_log
-      logs.build(changeset: changes)
+      logs.build changeset: build_changeset(changed_attributes)
     end
 
     def build_destroy_log
-      logs.create(changeset: predestroy_changes)
+      logs.create changeset: build_changeset(predestroy_attributes)
     end
 
     def predestroy_attributes
-      attributes.delete_if { |key, val| ignore_attrs.include?(key) }
-    end
-
-    def predestroy_changes
-      predestroy_attributes.inject({}) do | result, (attr, old_val) |
-        result[attr] = [ old_val, self.send(attr) ]; result
-      end
+      attributes.except(*ignore_attrs)
     end
 
     def ignore_attrs
       ["id", "created_at", "updated_at"]
     end
 
-    def changes
-      changed_attributes.inject({}) do | result, (attr, old_val) |
+    def build_changeset(changes)
+      changes.inject({}) do | result, (attr, old_val) |
         result[attr] = [ old_val, self.send(attr) ]; result
       end
     end
