@@ -1,6 +1,7 @@
 require 'log_lady/version'
 require 'log_lady/model'
 require 'log_lady/log'
+require 'log_lady/writer'
 
 module LogLady
 end
