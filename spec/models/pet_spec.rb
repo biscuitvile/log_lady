@@ -40,4 +40,20 @@ describe Pet do
         .should == { 'name' => ["Felix", "Garfield"] }
     end
   end
+
+  context "after destory" do
+    before do
+      felix.save; felix.destroy
+    end
+
+    it "should have two logs" do
+      felix.logs.count.should == 2
+      felix.logs.last.should be_persisted
+    end
+
+    it "tracks attributes changes in its log" do
+      felix.logs.last.changeset
+        .should == { 'name' => ["Felix", "Felix"], 'kind' => ["Cat", "Cat"] }
+    end
+  end
 end
