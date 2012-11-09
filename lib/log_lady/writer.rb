@@ -8,10 +8,18 @@ module LogLady
       })
     end
 
-    alias :before_update :before_create
+    def before_update(record)
+      record.log_change({
+        changeset: build_changeset(record, :changed_attributes),
+        kind: 'update'
+      })
+    end
 
     def before_destroy(record)
-      record.logs.create changeset: build_changeset(record, :predestroy_attributes)
+      record.log_change({
+        changeset: build_changeset(record, :predestroy_attributes),
+        kind: 'destroy'
+      })
     end
 
     def build_changeset(record, changes_message)

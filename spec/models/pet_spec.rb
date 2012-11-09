@@ -52,6 +52,10 @@ describe Pet do
       last_change.changeset
         .should == { 'name' => ["Felix", "Garfield"] }
     end
+
+    it "logs an update operation" do
+      last_change.kind.should == 'update'
+    end
   end
 
   context "after destory" do
