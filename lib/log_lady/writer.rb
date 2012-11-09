@@ -2,7 +2,7 @@ module LogLady
   class Writer
 
     def before_create(record)
-      record.logs.build({
+      record.log_change({
         changeset: build_changeset(record, :changed_attributes),
         kind: 'create'
       })

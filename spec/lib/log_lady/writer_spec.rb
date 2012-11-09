@@ -8,9 +8,7 @@ module LogLady
 
     describe "#before_create" do
       it "sets kind to create" do
-        logs = double
-        record.stub(:logs) {  logs  }
-        logs.should_receive(:build).with hash_including(kind: 'create')
+        record.should_receive(:log_change).with hash_including(kind: 'create')
         writer.before_create(record)
       end
     end

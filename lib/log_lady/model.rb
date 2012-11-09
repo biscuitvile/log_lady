@@ -13,6 +13,14 @@ module LogLady
       ["id", "created_at", "updated_at"]
     end
 
+    def log_change(attributes)
+      if persisted?
+        logs.create(attributes)
+      else
+        logs.build(attributes)
+      end
+    end
+
     module ClassMethods
       def log_lady_sees
         self.class_eval do
