@@ -3,6 +3,14 @@ require 'spec_helper'
 describe Pet do
   let(:felix) { Pet.new(name: "Felix", kind: "Cat") }
 
+  def first_change
+    felix.logs.first
+  end
+
+  def last_change
+    felix.logs.last
+  end
+
   context "before create" do
     it "logs are empty" do
       felix.logs.should be_empty
@@ -16,13 +24,18 @@ describe Pet do
 
     it "should have one log" do
       felix.logs.count.should == 1
-      felix.logs.first.should be_persisted
+      first_change.should be_persisted
     end
 
     it "tracks attributes changes in its log" do
-      felix.logs.first.changeset
+      first_change.changeset
         .should == { 'name' => [nil, "Felix"], 'kind' => [nil, "Cat"] }
     end
+
+    it "logs a create operation" do
+      first_change.kind.should == 'create'
+    end
+
   end
 
   context "after update" do
@@ -32,11 +45,11 @@ describe Pet do
 
     it "should have two logs" do
       felix.logs.count.should == 2
-      felix.logs.last.should be_persisted
+      last_change.should be_persisted
     end
 
     it "tracks attributes changes in its log" do
-      felix.logs.last.changeset
+      last_change.changeset
         .should == { 'name' => ["Felix", "Garfield"] }
     end
   end
@@ -48,11 +61,11 @@ describe Pet do
 
     it "should have two logs" do
       felix.logs.count.should == 2
-      felix.logs.last.should be_persisted
+      last_change.should be_persisted
     end
 
     it "tracks attributes changes in its log" do
-      felix.logs.last.changeset
+      last_change.changeset
         .should == { 'name' => ["Felix", "Felix"], 'kind' => ["Cat", "Cat"] }
     end
   end

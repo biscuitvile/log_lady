@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121029175656) do
+ActiveRecord::Schema.define(:version => 20121109192311) do
 
   create_table "log_lady_logs", :force => true do |t|
     t.string   "loggable_type"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20121029175656) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.text     "changeset"
+    t.string   "kind"
   end
 
   create_table "pets", :force => true do |t|

@@ -1,9 +1,11 @@
 module LogLady
   class Writer
-    attr_accessor :record
 
     def before_create(record)
-      record.logs.build changeset: build_changeset(record, :changed_attributes)
+      record.logs.build({
+        changeset: build_changeset(record, :changed_attributes),
+        kind: 'create'
+      })
     end
 
     alias :before_update :before_create
