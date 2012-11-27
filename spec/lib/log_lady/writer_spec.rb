@@ -15,6 +15,14 @@ module LogLady
       end
     end
 
+    def self.it_tracks_user_name
+      it "sets the current user name" do
+        Thread.current[:log_lady_user_name] = 'Bob'
+        record.should_receive(:log_change).with hash_including(user_name: 'Bob')
+        do_it
+      end
+    end
+
     let(:writer) { Writer.new }
     let(:record) { double.as_null_object }
 
@@ -29,6 +37,7 @@ module LogLady
         do_it
       end
 
+      it_tracks_user_name
       it_uses(:changed_attributes)
 
     end
@@ -43,6 +52,7 @@ module LogLady
         do_it
       end
 
+      it_tracks_user_name
       it_uses(:changed_attributes)
 
     end
@@ -57,6 +67,7 @@ module LogLady
         do_it
       end
 
+      it_tracks_user_name
       it_uses(:predestroy_attributes)
 
     end
